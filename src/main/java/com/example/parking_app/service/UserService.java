@@ -1,19 +1,18 @@
-package com.example.parkovki_user_service.service;
+package com.example.parking_app.service;
 
-import com.example.parkovki_user_service.DTO.CarDTO;
-import com.example.parkovki_user_service.DTO.UserDTO;
-import com.example.parkovki_user_service.entity.CarEntity;
-import com.example.parkovki_user_service.entity.UserEntity;
-import com.example.parkovki_user_service.exception.UserAlreadyExistException;
-import com.example.parkovki_user_service.exception.UserNotFoundException;
-import com.example.parkovki_user_service.repository.CarRepo;
-import com.example.parkovki_user_service.repository.UserRepo;
+import com.example.parking_app.dto.CarDTO;
+import com.example.parking_app.dto.UserDTO;
+import com.example.parking_app.entity.UserEntity;
+import com.example.parking_app.exception.UserAlreadyExistException;
+import com.example.parking_app.exception.UserNotFoundException;
+import com.example.parking_app.repository.CarRepo;
+import com.example.parking_app.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +27,19 @@ public class UserService {
             throw new UserAlreadyExistException("Пользователь с таким номером уже зарегистрирован в системе.");
         }
         return userRepo.save(user);
+    }
+
+    public UserEntity login(String phoneNumber, String password) throws UserNotFoundException {
+        UserEntity user = userRepo.findByPhoneNumber(phoneNumber);
+        if (user == null){
+            throw new UserNotFoundException("Пользователь не найден");
+        }
+        else {
+            if (!Objects.equals(password, user.getPassword())) {
+                throw new IllegalArgumentException("Неверный пароль");
+            }
+            return user;
+        }
     }
 
     public UserDTO getByPhone(String phoneNumber) throws UserNotFoundException {

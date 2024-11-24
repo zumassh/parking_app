@@ -1,6 +1,6 @@
-package com.example.parkovki_user_service.repository;
+package com.example.parking_app.repository;
 
-import com.example.parkovki_user_service.entity.UserEntity;
+import com.example.parking_app.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepo extends CrudRepository<UserEntity, Long> {

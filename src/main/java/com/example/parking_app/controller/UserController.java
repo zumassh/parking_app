@@ -1,10 +1,9 @@
-package com.example.parkovki_user_service.controller;
+package com.example.parking_app.controller;
 
-import com.example.parkovki_user_service.entity.UserEntity;
-import com.example.parkovki_user_service.exception.UserAlreadyExistException;
-import com.example.parkovki_user_service.exception.UserNotFoundException;
-import com.example.parkovki_user_service.repository.UserRepo;
-import com.example.parkovki_user_service.service.UserService;
+import com.example.parking_app.entity.UserEntity;
+import com.example.parking_app.exception.UserAlreadyExistException;
+import com.example.parking_app.exception.UserNotFoundException;
+import com.example.parking_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/registration")
     public ResponseEntity registration(@RequestBody UserEntity user){
         try {
             userService.registration(user);
@@ -26,6 +25,18 @@ public class UserController {
         }
         catch (Exception e){
             return  ResponseEntity.badRequest().body("Произошла ошибка: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserEntity user) {
+        try {
+            userService.login(user.getPhoneNumber(), user.getPassword());
+            return ResponseEntity.ok("Успешный вход. Сессия создана.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

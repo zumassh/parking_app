@@ -1,9 +1,8 @@
-package com.example.parkovki_user_service.repository;
+package com.example.parking_app.repository;
 
-import com.example.parkovki_user_service.entity.CarEntity;
+import com.example.parking_app.entity.CarEntity;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface CarRepo extends CrudRepository <CarEntity, Long> {

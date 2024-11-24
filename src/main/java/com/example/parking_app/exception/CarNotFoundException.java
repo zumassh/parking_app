@@ -1,4 +1,4 @@
-package com.example.parkovki_user_service.exception;
+package com.example.parking_app.exception;
 
 public class CarNotFoundException extends Exception {
     public CarNotFoundException(String message) {

@@ -1,6 +1,6 @@
-package com.example.parkovki_user_service.DTO;
+package com.example.parking_app.dto;
 
-import com.example.parkovki_user_service.entity.CarEntity;
+import com.example.parking_app.entity.CarEntity;
 
 public class CarDTO {
     Long id;

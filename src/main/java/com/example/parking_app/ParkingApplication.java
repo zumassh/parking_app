@@ -1,13 +1,13 @@
-package com.example.parkovki_user_service;
+package com.example.parking_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ParkovkiUserServiceApplication {
+public class ParkingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ParkovkiUserServiceApplication.class, args);
+		SpringApplication.run(ParkingApplication.class, args);
 	}
 
 }

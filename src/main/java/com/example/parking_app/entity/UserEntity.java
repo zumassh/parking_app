@@ -1,4 +1,4 @@
-package com.example.parkovki_user_service.entity;
+package com.example.parking_app.entity;
 
 import jakarta.persistence.*;
 

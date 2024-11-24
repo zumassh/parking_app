@@ -1,14 +1,12 @@
-package com.example.parkovki_user_service.service;
+package com.example.parking_app.service;
 
-import com.example.parkovki_user_service.entity.CarEntity;
-import com.example.parkovki_user_service.entity.UserEntity;
-import com.example.parkovki_user_service.exception.CarNotFoundException;
-import com.example.parkovki_user_service.exception.UserNotFoundException;
-import com.example.parkovki_user_service.repository.CarRepo;
-import com.example.parkovki_user_service.repository.UserRepo;
+import com.example.parking_app.entity.CarEntity;
+import com.example.parking_app.entity.UserEntity;
+import com.example.parking_app.exception.CarNotFoundException;
+import com.example.parking_app.repository.CarRepo;
+import com.example.parking_app.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

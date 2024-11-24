@@ -1,9 +1,8 @@
-package com.example.parkovki_user_service.controller;
+package com.example.parking_app.controller;
 
-import com.example.parkovki_user_service.entity.CarEntity;
-import com.example.parkovki_user_service.exception.CarNotFoundException;
-import com.example.parkovki_user_service.exception.UserNotFoundException;
-import com.example.parkovki_user_service.service.CarService;
+import com.example.parking_app.entity.CarEntity;
+import com.example.parking_app.exception.CarNotFoundException;
+import com.example.parking_app.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

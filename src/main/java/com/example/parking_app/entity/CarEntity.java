@@ -1,8 +1,6 @@
-package com.example.parkovki_user_service.entity;
+package com.example.parking_app.entity;
 
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "car")
