@@ -78,4 +78,17 @@ public class UserController {
             return  ResponseEntity.badRequest().body("Произошла ошибка: " + e.getMessage());
         }
     }
+
+    @PostMapping("/{id}/wallet")
+    public ResponseEntity addMoneyToWallet(@RequestParam String phoneNumber, @RequestParam Integer money, @PathVariable String id){
+        try {
+            return ResponseEntity.ok(userService.addMoneyToWallet(phoneNumber, money));
+        }
+        catch (UserNotFoundException e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (Exception e){
+            return  ResponseEntity.badRequest().body("Произошла ошибка: " + e.getMessage());
+        }
+    }
 }

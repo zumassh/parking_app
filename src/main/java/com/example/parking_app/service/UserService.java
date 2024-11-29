@@ -65,6 +65,17 @@ public class UserService {
             throw new UserNotFoundException("Пользователь не найден.");
         }
         return carRepo.findAllByUserId(userId).stream()
-                .map(car -> new CarDTO(car)).collect(Collectors.toList());
+                .map(CarDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public String addMoneyToWallet(String phoneNumber, Integer money) throws UserNotFoundException {
+        UserEntity user = userRepo.findByPhoneNumber(phoneNumber);
+        if (user == null){
+            throw new UserNotFoundException("Пользователь с таким номером не найден.");
+        }
+        user.setWallet(user.getWallet() + money);
+        userRepo.save(user);
+        return "Пополнение прошло успешно.";
     }
 }

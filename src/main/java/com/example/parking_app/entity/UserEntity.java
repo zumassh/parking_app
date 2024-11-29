@@ -12,6 +12,8 @@ public class UserEntity {
     private String phoneNumber;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+    private int wallet = 0;
 
     public UserEntity() {}
 
@@ -31,6 +33,8 @@ public class UserEntity {
         this.phoneNumber = phone_number;
     }
 
+    public void setWallet(int wallet){ this.wallet = wallet; }
+
     public String getPassword() {
         return password;
     }
@@ -38,4 +42,6 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getWallet() { return wallet; }
 }
