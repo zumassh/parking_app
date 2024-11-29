@@ -14,10 +14,10 @@ public class CarController {
     CarService carService;
 
     @PostMapping
-    public ResponseEntity createCar(@RequestBody CarEntity car, @RequestParam Long userId){
+    public ResponseEntity<?> createCar(@RequestBody CarEntity car, @RequestParam Long userId){
         try{
             carService.createCar(car, userId);
-            return ResponseEntity.ok("Автомобиль успешно добавлен.");
+            return ResponseEntity.ok(car);
         }
         catch (Exception e){
             return  ResponseEntity.badRequest().body("Произошла ошибка: " + e.getMessage());

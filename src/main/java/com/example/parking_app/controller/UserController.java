@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -29,10 +31,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserEntity user) {
+    public ResponseEntity<?> login(@RequestBody UserEntity user) {
         try {
-            userService.login(user.getPhoneNumber(), user.getPassword());
-            return ResponseEntity.ok("Успешный вход. Сессия создана.");
+            UserEntity loggedInUser = userService.login(user.getPhoneNumber(), user.getPassword());
+            return ResponseEntity.ok(Map.of(
+                    "id", loggedInUser.getId(),
+                    "message", "Успешный вход. Сессия создана"
+            ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (UserNotFoundException e) {
