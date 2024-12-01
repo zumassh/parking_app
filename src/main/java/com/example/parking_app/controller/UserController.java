@@ -20,7 +20,7 @@ public class UserController {
     public ResponseEntity registration(@RequestBody UserEntity user){
         try {
             userService.registration(user);
-            return ResponseEntity.ok("Пользователь успешно сохранен.");
+            return ResponseEntity.ok(user);
         }
         catch (UserAlreadyExistException e){
             return  ResponseEntity.badRequest().body(e.getMessage());
