@@ -15,6 +15,13 @@ public class CarDTO {
         userNumber = car.getUser().getPhoneNumber();
     }
 
+    public CarDTO(Long id, String name, String number, String userNumber) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.userNumber = userNumber;
+    }
+
     public Long getId() {
         return id;
     }

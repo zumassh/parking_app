@@ -78,4 +78,12 @@ public class UserService {
         userRepo.save(user);
         return "Пополнение прошло успешно.";
     }
+
+    public Integer getUserMoney(String phoneNumber) throws UserNotFoundException {
+        UserEntity user = userRepo.findByPhoneNumber(phoneNumber);
+        if (user == null){
+            throw new UserNotFoundException("Пользователь с таким номером не найден.");
+        }
+        return user.getWallet();
+    }
 }

@@ -1,19 +1,22 @@
 package com.example.parking_app.service;
 
-import com.example.parking_app.entity.CarEntity;
-import com.example.parking_app.entity.ParkingSpotEntity;
-import com.example.parking_app.entity.ParkingSpotId;
-import com.example.parking_app.entity.UserEntity;
+import com.example.parking_app.dto.TemporaryRequest;
+import com.example.parking_app.entity.*;
 import com.example.parking_app.exception.CarNotFoundException;
 import com.example.parking_app.exception.NotEnoughMoneyException;
 import com.example.parking_app.exception.ParkingSpotNotFoundException;
 import com.example.parking_app.exception.SpotAlreadyNullException;
 import com.example.parking_app.repository.CarRepo;
 import com.example.parking_app.repository.ParkingSpotRepo;
+import com.example.parking_app.repository.ReserveRepo;
 import com.example.parking_app.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Service
 public class ParkingSpotService {
@@ -24,26 +27,49 @@ public class ParkingSpotService {
     private CarRepo carRepository;
     @Autowired
     private UserRepo userRepository;
+    @Autowired
+    private ReserveRepo reserveRepository;
 
-    @Transactional
-    public ParkingSpotEntity assignSpotToCar(Long parkingId, Long carId, Integer price) throws CarNotFoundException {
-        ParkingSpotEntity spot = parkingSpotRepository.findFirstByParkingIdAndCarIsNull(parkingId)
+
+
+    public ParkingSpotEntity assignSpotToCar(TemporaryRequest request, String type) {
+        if (type.equals("Подписка")) {
+            ZonedDateTime nowUTC = ZonedDateTime.now(ZoneId.of("UTC")); // Текущий момент по UTC
+            ZonedDateTime oneMonthLaterUTC = nowUTC.plusMonths(1); // Момент через месяц по UTC
+
+            request.setStartTime(nowUTC.toLocalDateTime()); // Преобразуем ZonedDateTime в LocalDateTime
+            request.setEndTime(oneMonthLaterUTC.toLocalDateTime());
+        }
+        ParkingSpotEntity spot = parkingSpotRepository.findFirstByParkingIdAndCarIsNull(request.getParkingDTO().getId())
                 .orElseThrow(() -> new ParkingSpotNotFoundException("Нет свободных парковочных мест."));
-        CarEntity car = carRepository.findById(carId)
+        CarEntity car = carRepository.findById(request.getCarDTO().getId())
                 .orElseThrow(() -> new CarNotFoundException("Автомобиль не найден"));
-        // здесь нужна проверка кошелька и списание
         UserEntity carOwner = userRepository.getUserEntityById(car.getUser().getId());
-        if (carOwner.getWallet() - price < 0){
+        if (carOwner.getWallet() - request.getPrice() < 0){
             throw new NotEnoughMoneyException("Не хватает денег на оплату парковки");
         }
-        else {
-            carOwner.setWallet(carOwner.getWallet() - price);
-            userRepository.save(carOwner);
-        }
+
+        carOwner.setWallet(carOwner.getWallet() - request.getPrice());
+        userRepository.save(carOwner);
+
         spot.setCar(car);
         spot = parkingSpotRepository.save(spot);
-        return new ParkingSpotEntity(spot.getSpotNumber(), spot.getParking().getId());
+
+        ReserveEntity reserveEntity = new ReserveEntity();
+        reserveEntity.setStartTime(request.getStartTime());
+        reserveEntity.setEndTime(request.getEndTime());
+        reserveEntity.setPrice(request.getPrice());
+        reserveEntity.setReserveType(type);
+        reserveEntity.setParkingSpot(spot);
+
+        reserveRepository.save(reserveEntity);
+
+        return spot;
     }
+
+
+
+
 
     public ParkingSpotEntity unassignCarFromSpot(Long parkingId, String spotNumber) {
 

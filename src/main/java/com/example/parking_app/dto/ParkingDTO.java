@@ -11,6 +11,9 @@ public class ParkingDTO {
     boolean temporary; // Возможность оплаты по времени
     int capacity;
 
+    public ParkingDTO() {
+    }
+
     public ParkingDTO(ParkingEntity parking) {
         this.capacity = parking.getCapacity();
         this.temporary = parking.isTemporary();
@@ -18,6 +21,15 @@ public class ParkingDTO {
         this.reservable = parking.isReservable();
         this.address = parking.getAddress();
         this.id = parking.getId();
+    }
+
+    public ParkingDTO(Long id, String address, boolean reservable, boolean subscribeable, boolean temporary, int capacity) {
+        this.id = id;
+        this.address = address;
+        this.reservable = reservable;
+        this.subscribeable = subscribeable;
+        this.temporary = temporary;
+        this.capacity = capacity;
     }
 
     public Long getId() {

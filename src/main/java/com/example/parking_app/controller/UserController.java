@@ -85,9 +85,23 @@ public class UserController {
     }
 
     @PostMapping("/{id}/wallet")
-    public ResponseEntity addMoneyToWallet(@RequestParam String phoneNumber, @RequestParam Integer money, @PathVariable String id){
+    public ResponseEntity addMoneyToWallet(@RequestParam String phoneNumber, @RequestParam Integer money, @PathVariable Long id){
         try {
             return ResponseEntity.ok(userService.addMoneyToWallet(phoneNumber, money));
+        }
+        catch (UserNotFoundException e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (Exception e){
+            return  ResponseEntity.badRequest().body("Произошла ошибка: " + e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/{id}/wallet")
+    public ResponseEntity getUserMoney(@RequestParam String phoneNumber, @PathVariable Long id){
+        try {
+            return ResponseEntity.ok(userService.getUserMoney(phoneNumber));
         }
         catch (UserNotFoundException e){
             return  ResponseEntity.badRequest().body(e.getMessage());
