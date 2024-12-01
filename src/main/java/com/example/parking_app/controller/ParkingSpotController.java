@@ -19,14 +19,14 @@ public class ParkingSpotController {
     @PostMapping("/assign/temporary")
     public ResponseEntity<String> temporarySpot(@RequestBody TemporaryRequest request) {
 
-        ParkingSpotEntity spot = parkingSpotService.assignSpotToCar(request, "Почасовая");
+        ParkingSpotEntity spot = parkingSpotService.assignSpotToCar(request, "Поминутная");
         String message = "Машиноместо подтверждено. Ваше парковочное место: " + spot.getSpotNumber();
         return ResponseEntity.ok("message");
     }
 
     @PostMapping("/assign/subscribe")
     public ResponseEntity<String> subscribeSpot(@RequestBody TemporaryRequest request) {
-        ParkingSpotEntity spot = parkingSpotService.assignSpotToCar(request, "Подписка");
+        ParkingSpotEntity spot = parkingSpotService.assignSpotToCar(request, "Абонемент");
         String message = "Машиноместо подтверждено. Ваше парковочное место: " + spot.getSpotNumber();
         return ResponseEntity.ok("message");
     }
