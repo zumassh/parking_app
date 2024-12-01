@@ -9,18 +9,20 @@ public class ReserveDTO {
     private int price;
     private String reserveType;
     private ParkingSpotDTO parkingSpot;
+    private String parkingAddress;
     private CarDTO car;
 
     public ReserveDTO() {
     }
 
-    public ReserveDTO(Long id, LocalDateTime startTime, LocalDateTime endTime, int price, String reserveType, ParkingSpotDTO parkingSpot, CarDTO car) {
+    public ReserveDTO(Long id, LocalDateTime startTime, LocalDateTime endTime, int price, String reserveType, ParkingSpotDTO parkingSpot, String parkingAddress, CarDTO car) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
         this.reserveType = reserveType;
         this.parkingSpot = parkingSpot;
+        this.parkingAddress = parkingAddress;
         this.car = car;
     }
 
@@ -78,5 +80,13 @@ public class ReserveDTO {
 
     public void setCar(CarDTO car) {
         this.car = car;
+    }
+
+    public String getParkingAddress() {
+        return parkingAddress;
+    }
+
+    public void setParkingAddress(String parkingAddress) {
+        this.parkingAddress = parkingAddress;
     }
 }

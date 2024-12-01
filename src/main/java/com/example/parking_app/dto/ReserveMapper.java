@@ -35,6 +35,7 @@ public class ReserveMapper {
                 reserveEntity.getPrice(),
                 reserveEntity.getReserveType(),
                 parkingSpotDTO,
+                reserveEntity.getParkingSpot().getParking().getAddress(),
                 carDTO
         );
     }
